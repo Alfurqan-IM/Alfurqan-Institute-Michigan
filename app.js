@@ -23,6 +23,30 @@ const morgan = require("morgan");
 app.use(morgan("dev"));
 const passport = require("passport");
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+// Error Handling Middleware
+const notFound = require("./middleware/notFoundError");
+const errorHandlerMiddleware = require("./middleware/errorHandler");
+
+//cookie
+const cookieParser = require("cookie-parser");
+
+//Error Handling Middleware for routes and interacting with the database
+app.use(notFound);
+app.use(errorHandlerMiddleware);
+
+// connect to DB and start Server
+const x = 92;
+connectDB.sequelize
+  .sync()
+  .then(() => {
+    // Start the Express server
+    app.listen(port, () => {
+      console.log(`Server is running on http://localhost:${port}`);
+    });
+  })
+  .catch((error) => {
+    console.error(
+      "Error synchronizing Sequelize models with the database:",
+      error
+    );
+  });
