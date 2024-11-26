@@ -66,6 +66,11 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         defaultValue: "please update your state",
       },
+      country: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+        defaultValue: "please update your country",
+      },
       notification: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

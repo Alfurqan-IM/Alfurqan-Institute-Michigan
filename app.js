@@ -30,6 +30,12 @@ const errorHandlerMiddleware = require("./middleware/errorHandler");
 //cookie
 const cookieParser = require("cookie-parser");
 
+// Router
+const authRoutes = require("./routes/authFlowRouter");
+
+// use Routes
+app.use("/api/v1/authentication", authRoutes);
+
 //Error Handling Middleware for routes and interacting with the database
 app.use(notFound);
 app.use(errorHandlerMiddleware);
