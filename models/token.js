@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define(
+  const token = sequelize.define(
     "token",
     {
       token_id: {
@@ -24,6 +24,7 @@ module.exports = function (sequelize, DataTypes) {
       isValid: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
+        defaultValue: true,
       },
       user: {
         type: DataTypes.INTEGER,
@@ -53,4 +54,5 @@ module.exports = function (sequelize, DataTypes) {
       ],
     }
   );
+  return token;
 };

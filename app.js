@@ -30,6 +30,9 @@ const errorHandlerMiddleware = require("./middleware/errorHandler");
 //cookie
 const cookieParser = require("cookie-parser");
 
+// use Cookie
+app.use(cookieParser(process.env.JWT_SECRET));
+
 // Router
 const authRoutes = require("./routes/authFlowRouter");
 

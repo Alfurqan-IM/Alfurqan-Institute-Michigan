@@ -6,7 +6,7 @@ create table users (
 user_id int auto_increment primary key,
 fisrt_name varchar(50) not null,
 last_name varchar(50) not null,
-user_name varchar(50) not null unique,
+user_name varchar(50) unique default "---" unique,
 email varchar(255) unique not null,
 password varchar(30) check(char_length(password) between 8 and 30) not null,
 role enum('admin','user') default 'user',
@@ -16,7 +16,6 @@ gender enum('male','female') default 'female',
 address varchar(1000) default 'please update your address' not null,
 city varchar(50) default 'please update your city' not null,
 state varchar(50) default 'please update your state' not null,
-state varchar(50) default 'please update your country' not null,
 notification bool default false not null,
 blacklisted bool default false not null,
 verificationString text,
@@ -25,6 +24,7 @@ verified datetime,
 passwordToken text,
 passwordExpirationDate datetime
 ); 
+alter table users add country varchar(50) default 'please update your country' not null after state;
 -- create token table 
 create table token(
 token_id int primary key auto_increment,
@@ -35,3 +35,4 @@ isValid bool not null,
 user int,
 foreign key(user) references users(user_id) on delete cascade
 ); 
+select * from users;

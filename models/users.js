@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
+const bcrypt = require("bcryptjs");
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define(
+  const users = sequelize.define(
     "users",
     {
       user_id: {
@@ -9,7 +10,7 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         primaryKey: true,
       },
-      fisrt_name: {
+      first_name: {
         type: DataTypes.STRING(50),
         allowNull: false,
       },
@@ -20,7 +21,7 @@ module.exports = function (sequelize, DataTypes) {
       user_name: {
         type: DataTypes.STRING(50),
         allowNull: true,
-        defaultValue: "---",
+        // defaultValue: null,
         unique: "user_name",
       },
       email: {
@@ -29,7 +30,7 @@ module.exports = function (sequelize, DataTypes) {
         unique: "email",
       },
       password: {
-        type: DataTypes.STRING(30),
+        type: DataTypes.STRING(100),
         allowNull: false,
       },
       role: {
@@ -136,4 +137,17 @@ module.exports = function (sequelize, DataTypes) {
       ],
     }
   );
+  users.prototype.comparePassword = async function (userPassword) {
+    const isMatch = await bcrypt.compare(userPassword, this.password);
+    // console.log(isMatch);
+    return isMatch;
+  };
+  users.beforeSave(async (user, options) => {
+    // console.log(user, "here");
+    if (user.changed("password")) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(user.password, salt);
+    }
+  });
+  return users;
 };

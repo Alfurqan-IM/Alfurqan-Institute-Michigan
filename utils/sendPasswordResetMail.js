@@ -3,39 +3,39 @@ const Mailgen = require("mailgen");
 const moment = require("moment");
 
 const sendPasswordResetMail = ({ origin, email, passwordToken, fullname }) => {
-  // const resetPassword = `${origin}/authflow/resetpassword?token=${passwordToken}&email=${email}`;
+  const { first_name, last_name } = fullname;
   const resetPassword = `${origin}/authentication/reset-password?token=${passwordToken}&email=${email}`;
   const mailGenerator = new Mailgen({
     theme: "default",
     product: {
       // Appears in header & footer of e-mails
-      name: "Apiaries 16",
-      link: "https://oyintola.onrender.com", //mark
+      name: "AlFurqan Institute Michigan",
+      link: "#", //mark
       logo: "https://res.cloudinary.com/dod7yij4e/image/upload/v1696673083/Product%20Images/tmp-1-1696673080565_vbd2xl.png",
       logoHeight: "120px",
-      copyright: ` © ${new Date().getFullYear()} Apiaries 16. All rights reserved.`,
+      copyright: ` © ${new Date().getFullYear()} AlFurqan Institute. All rights reserved.`,
     },
   });
   const socialMediaLinks = [
     {
       name: "Facebook",
       icon: "https://img.icons8.com/fluency/48/facebook.png",
-      link: "http://www.facebook.com/oyintolabeads",
+      link: "#",
     },
     {
       name: "Twitter",
       icon: "https://img.icons8.com/color/48/twitter--v1.png",
-      link: "https://twitter.com/AmeenatHWB?t=49dFQ-1i7q54H8kelObFbg&s=09",
+      link: "#",
     },
     {
       name: "Instagram",
       icon: "https://img.icons8.com/color/48/instagram-new--v1.png",
-      link: "https://instagram.com/oyintolabeads?igshid=MzNlNGNkZWQ4Mg==",
+      link: "#",
     },
     {
       name: "whatsApp",
       icon: "https://img.icons8.com/color/48/whatsapp--v1.png",
-      link: "https://bit.ly/Oyintolabeads",
+      link: "#",
     },
   ];
 
@@ -48,7 +48,7 @@ const sendPasswordResetMail = ({ origin, email, passwordToken, fullname }) => {
 
   const Email = {
     body: {
-      name: fullname,
+      name: `${first_name} ${last_name}`,
       intro: "Reset your Password",
       action: {
         instructions:
@@ -66,8 +66,7 @@ const sendPasswordResetMail = ({ origin, email, passwordToken, fullname }) => {
 
       dictionary: {
         date: moment().format("MMMM Do YYYY"),
-        address:
-          "Apiaries 16, beside Jezdeb filling station Agbabaika, Gaa-Akanbi, Ilorin",
+        address: "AlFurqan Institute Michigan",
         handles: socialMediaLinksHTML,
       },
     },
