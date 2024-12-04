@@ -17,26 +17,26 @@ const sendVerificationMail = ({
       // Appears in header & footer of e-mails
       name: "AlFurqan Institute Michigan",
       link: "#", //mark
-      logo: "https://res.cloudinary.com/dod7yij4e/image/upload/v1696673083/Product%20Images/tmp-1-1696673080565_vbd2xl.png",
+      logo: "https://res.cloudinary.com/dtrdvz70q/image/upload/v1733324658/Alfurqan%20Institue%20Michigan/alfuraqan_logo_2.jpg",
       logoHeight: "120px",
-      copyright: ` © ${new Date().getFullYear()} AlFurqan Institute. All rights reserved.`,
+      copyright: ` © ${new Date().getFullYear()} AlFurqan Institute Michigan. All rights reserved.`,
     },
   });
   const socialMediaLinks = [
     {
       name: "Facebook",
       icon: "https://img.icons8.com/fluency/48/facebook.png",
-      link: "#",
+      link: "https://www.facebook.com/profile.php?id=61569614254645",
     },
     {
       name: "Twitter",
       icon: "https://img.icons8.com/color/48/twitter--v1.png",
-      link: "#",
+      link: "https://x.com/AlfurqanMich?t=BhE9yvT1wPGvlTjWaMxCBw&s=09",
     },
     {
       name: "Instagram",
       icon: "https://img.icons8.com/color/48/instagram-new--v1.png",
-      link: "#",
+      link: "https://www.instagram.com/alfurqanmichigan?igsh=OGlnb3U5YWloejcw",
     },
     {
       name: "whatsApp",

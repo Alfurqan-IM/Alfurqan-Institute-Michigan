@@ -6,9 +6,6 @@ const app = express();
 const port = process.env.PORT || 5005;
 const connectDB = require("./models");
 const path = require("path");
-// uplaod files
-const cloudinary = require("cloudinary").v2;
-const fileUpload = require("express-fileupload");
 
 // security
 const rateLimiter = require("express-rate-limit");
@@ -33,8 +30,20 @@ const cookieParser = require("cookie-parser");
 // use Cookie
 app.use(cookieParser(process.env.JWT_SECRET));
 
+// uplaod files
+const cloudinary = require("cloudinary").v2;
+const fileUpload = require("express-fileupload");
+
 // Router
 const authRoutes = require("./routes/authFlowRouter");
+
+// use upload
+app.use(fileUpload({ useTempFiles: true }));
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // use Routes
 app.use("/api/v1/authentication", authRoutes);
