@@ -3,14 +3,12 @@ const { users: USERS, token: TOKEN } = require("../models");
 const crypto = require("crypto");
 const passport = require("passport");
 const {
-  FORBIDDEN,
   UNAUTHORIZED,
   NOT_FOUND,
   BAD_REQUEST,
 } = require("../middleware/customErrors");
 const sendVerificationMail = require("../utils/sendVerificationMail");
 const { createUser, attachResponseToCookie } = require("../utils/jwt");
-const { token } = require("morgan");
 const sendPasswordResetMail = require("../utils/sendPasswordResetMail");
 const register = async (req, res) => {
   const {
@@ -163,7 +161,7 @@ const login = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Login Sucessful !!!!" });
 };
 const showMe = async (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
   const {
     first_name,
     last_name,
@@ -308,7 +306,7 @@ const googleCallBack = (req, res, next) => {
           return next(err);
         }
         if (!user) {
-          return next(new UNAUTHORIZED("Authentication failed!!"));
+          return next(new UNAUTHORIZED("Authentication failed pls try again!!"));
         }
         const { email } = user;
 

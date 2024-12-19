@@ -13,12 +13,15 @@ const helmet = require("helmet");
 const xss = require("xss-clean");
 const cors = require("cors");
 
+// Always restrict CORS to specific origins in production.
+// Use environment variables to dynamically configure the allowed origin based on the environment (development or production).
+// Avoid allowing all origins (*) in production to prevent unauthorized access.
 //middleware
-// require("./middlewares/customErrors/passportConfig");
 app.use(express.json());
 const morgan = require("morgan");
 app.use(morgan("dev"));
 const passport = require("passport");
+require("./middleware/passportConfig");
 
 // Error Handling Middleware
 const notFound = require("./middleware/notFoundError");
@@ -36,6 +39,12 @@ const fileUpload = require("express-fileupload");
 
 // Router
 const authRoutes = require("./routes/authFlowRouter");
+const bannerRoutes = require("./routes/bannerRoutes");
+const enquiriesRoutes = require("./routes/enquiryRoutes");
+const programmesRoutes = require("./routes/programmesRouter");
+
+// use passport config
+app.use(passport.initialize());
 
 // use upload
 app.use(fileUpload({ useTempFiles: true }));
@@ -45,15 +54,23 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+//  google auth
+app.get("/", (req, res) => {
+  res.send('<a href="/api/v1/authentication/google">login with google</a>');
+});
+
 // use Routes
 app.use("/api/v1/authentication", authRoutes);
+app.use("/api/v1/banners", bannerRoutes);
+app.use("/api/v1/enquiries", enquiriesRoutes);
+app.use("/api/v1/programmes", programmesRoutes);
 
 //Error Handling Middleware for routes and interacting with the database
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
 // connect to DB and start Server
-const x = 92;
+// const x = 92;
 connectDB.sequelize
   .sync()
   .then(() => {

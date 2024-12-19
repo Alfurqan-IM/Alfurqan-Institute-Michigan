@@ -28,6 +28,12 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(255),
         allowNull: false,
         unique: "email",
+        validate: {
+          isEmail: {
+            args: true,
+            msg: "Please provide a valid email",
+          },
+        },
       },
       password: {
         type: DataTypes.STRING(100),
@@ -151,3 +157,4 @@ module.exports = function (sequelize, DataTypes) {
   });
   return users;
 };
+// npx sequelize-auto -o "./models" -d alfurqan_institute_michigan -h 127.0.0.1 -u root -p 3306 -x BabanFad@92 -e mysql --tables programmes,programmesImages,programmeOutcomes
