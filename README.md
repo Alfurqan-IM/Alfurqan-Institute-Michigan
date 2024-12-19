@@ -1,4 +1,5 @@
 # Alfurqan-Institute-Michigan
+
 A comprehensive web application designed to streamline event management, donation tracking, and impact reporting. Features include multi-language support, integrated prayer times, membership management, a donation platform with campaign visualization, and detailed fund allocation reporting.
 
 # Git Workflow Guide for Team Members
@@ -21,15 +22,15 @@ Now that you've forked the repository, you need to clone it to your local machin
 2. Click the **Code** button and copy the URL (either HTTPS or SSH).
 3. Open your terminal or Git Bash and run the following command to clone the repository:
 
-    ```bash
-    git clone https://github.com/yourusername/repository-name.git
-    ```
+   ```bash
+   git clone https://github.com/yourusername/repository-name.git
+   ```
 
 4. Navigate into the cloned repository's directory:
 
-    ```bash
-    cd repository-name
-    ```
+   ```bash
+   cd repository-name
+   ```
 
 ## 3. Setting Up the Original Repository (Upstream) as a Remote
 
@@ -37,15 +38,15 @@ To keep your fork up to date with the original repository (the **upstream repo**
 
 1. In your terminal, run the following command to add the upstream remote:
 
-    ```bash
-    git remote add upstream https://github.com/original-owner/repository-name.git
-    ```
+   ```bash
+   git remote add upstream https://github.com/original-owner/repository-name.git
+   ```
 
 2. To verify that the upstream remote was added correctly, run:
 
-    ```bash
-    git remote -v
-    ```
+   ```bash
+   git remote -v
+   ```
 
    This should show both `origin` (your fork) and `upstream` (the original repository).
 
@@ -55,29 +56,29 @@ Before you start working on any changes, ensure that your local fork is up to da
 
 1. Fetch the latest changes from the upstream repository:
 
-    ```bash
-    git fetch upstream
-    ```
+   ```bash
+   git fetch upstream
+   ```
 
 2. Checkout your `dev` branch (or the branch you're working on):
 
-    ```bash
-    git checkout dev
-    ```
+   ```bash
+   git checkout dev
+   ```
 
 3. Merge the latest changes from the upstream repository’s `dev` branch into your local `dev` branch:
 
-    ```bash
-    git pull upstream dev
-    ```
+   ```bash
+   git pull upstream dev
+   ```
 
    If you are working on the `main` branch, use `git pull upstream main` instead.
 
 4. Push the changes to your forked repository on GitHub:
 
-    ```bash
-    git push origin dev
-    ```
+   ```bash
+   git push origin dev
+   ```
 
 ## 5. Creating a Feature Branch
 
@@ -85,15 +86,15 @@ When you're ready to work on a new feature or fix, it’s important to create a 
 
 1. Make sure you are on the `dev` branch:
 
-    ```bash
-    git checkout dev
-    ```
+   ```bash
+   git checkout dev
+   ```
 
 2. Create a new branch for your feature or bug fix:
 
-    ```bash
-    git checkout -b feature/your-feature-name
-    ```
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
 3. Work on your changes in this branch.
 
@@ -103,21 +104,21 @@ Once you’ve made your changes, you need to commit them to your feature branch.
 
 1. Stage your changes:
 
-    ```bash
-    git add .
-    ```
+   ```bash
+   git add .
+   ```
 
 2. Commit the changes with a descriptive message:
 
-    ```bash
-    git commit -m "Add feature: description of what you did"
-    ```
+   ```bash
+   git commit -m "Add feature: description of what you did"
+   ```
 
 3. Push your changes to your forked repository on GitHub:
 
-    ```bash
-    git push origin feature/your-feature-name
-    ```
+   ```bash
+   git push origin feature/your-feature-name
+   ```
 
 ## 7. Opening a Pull Request (PR)
 
@@ -144,27 +145,27 @@ Once your PR is merged into the `dev` branch of the original repository, you sho
 
 1. Fetch the latest changes from the upstream repository:
 
-    ```bash
-    git fetch upstream
-    ```
+   ```bash
+   git fetch upstream
+   ```
 
 2. Checkout your `dev` branch:
 
-    ```bash
-    git checkout dev
-    ```
+   ```bash
+   git checkout dev
+   ```
 
 3. Merge the changes from the upstream `dev` branch:
 
-    ```bash
-    git pull upstream dev
-    ```
+   ```bash
+   git pull upstream dev
+   ```
 
 4. Push the updated `dev` branch to your forked repository:
 
-    ```bash
-    git push origin dev
-    ```
+   ```bash
+   git push origin dev
+   ```
 
 ## 10. Best Practices
 
