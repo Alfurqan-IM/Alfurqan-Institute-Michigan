@@ -53,6 +53,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.TEXT,
         allowNull: true,
       },
+      img_public_id: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
       gender: {
         type: DataTypes.ENUM("male", "female"),
         allowNull: true,
@@ -158,5 +162,3 @@ module.exports = function (sequelize, DataTypes) {
   return users;
 };
 // npx sequelize-auto -o "./models" -d alfurqan_institute_michigan -h 127.0.0.1 -u root -p 3306 -x BabanFad@92 -e mysql --tables programmes,programmesImages,programmeOutcomes
-
-
