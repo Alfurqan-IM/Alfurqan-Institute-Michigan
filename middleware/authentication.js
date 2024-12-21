@@ -52,3 +52,4 @@ const checkPermissions = ({ reqUser, resUser }) => {
 };
 
 module.exports = { authenticated, authorizedPermissions, checkPermissions };
+// checkPermissions({ reqUser: req.user, resUser: req.user.user_id });

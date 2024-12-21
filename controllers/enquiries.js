@@ -61,6 +61,17 @@ const getAllEnquiries = async (req, res) => {
     numOfPages,
   });
 };
+const updateEnquiry = async (req, res) => {
+  const { enq_id } = req.params;
+  const enquiry = await Enquiries.findOne({ where: { enq_id } });
+  if (!enquiry) {
+    throw new NOT_FOUND(`There is no enquiry with an id of ${enq_id}`);
+  }
+  await Enquiries.update(req.body, {
+    where: { enq_id },
+  });
+  res.status(StatusCodes.OK).json({ msg: "Enquiries updated successfully" });
+};
 const removeEnquiry = async (req, res) => {
   const { enq_id } = req.params;
   const enquiry = await Enquiries.findOne({ enq_id });
@@ -72,4 +83,9 @@ const removeEnquiry = async (req, res) => {
     msg: `enquiry with the id of ${enq_id} has been deleted successfully`,
   });
 };
-module.exports = { createEnquiry, getAllEnquiries, removeEnquiry };
+module.exports = {
+  createEnquiry,
+  getAllEnquiries,
+  removeEnquiry,
+  updateEnquiry,
+};

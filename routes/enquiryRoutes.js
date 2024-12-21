@@ -4,6 +4,7 @@ const {
   createEnquiry,
   getAllEnquiries,
   removeEnquiry,
+  updateEnquiry,
 } = require("../controllers/enquiries");
 const {
   authenticated,
@@ -12,12 +13,11 @@ const {
 
 router
   .route("/")
-  .get(authenticated, authorizedPermissions("admin"), getAllEnquiries);
-router
-  .route("/")
-  .post(authenticated, authorizedPermissions("admin"), createEnquiry);
+  .get(authenticated, authorizedPermissions("admin"), getAllEnquiries)
+  .post(createEnquiry);
 router
   .route("/:enq_id")
-  .delete(authenticated, authorizedPermissions("admin"), removeEnquiry);
+  .delete(authenticated, authorizedPermissions("admin"), removeEnquiry)
+  .patch(authenticated, authorizedPermissions("admin"), updateEnquiry);
 
 module.exports = router;

@@ -52,5 +52,10 @@ module.exports = function (sequelize, DataTypes) {
       ],
     }
   );
+  programmeoutcomes.associate = function (models) {
+    programmeoutcomes.belongsTo(models.programmes, {
+      foreignKey: "programme_id",
+    });
+  };
   return programmeoutcomes;
 };
