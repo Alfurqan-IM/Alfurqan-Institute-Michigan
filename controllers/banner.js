@@ -46,7 +46,7 @@ const uploadBannerImg = async (req, res) => {
       folder: "AIM banner's Images",
     }
   );
-  console.log(result);
+  // console.log(result);
   banner.image = result.secure_url;
   banner.image_public_id = result.public_id;
   await banner.save();

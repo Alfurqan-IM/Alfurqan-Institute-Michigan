@@ -17,6 +17,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
+      text: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
       translation: {
         type: DataTypes.TEXT,
         allowNull: true,
