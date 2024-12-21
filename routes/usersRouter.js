@@ -6,7 +6,6 @@ const {
   uploadAvatar,
   subscribeToEmail,
   unSubscribeToEmail,
-  //   deleteUser,
 } = require("../controllers/users");
 const {
   authenticated,
@@ -22,5 +21,4 @@ router
   .patch(authenticated, updateUser)
   router.route("/unsubscribe/:user_id").patch(authenticated, unSubscribeToEmail);
   router.route("/subscribe/:user_id").patch(authenticated, subscribeToEmail);
-//   .delete(authenticated, authorizedPermissions("admin"), deleteUser);
 module.exports = router;

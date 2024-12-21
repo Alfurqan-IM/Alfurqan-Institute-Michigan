@@ -182,33 +182,6 @@ console.log(user_id,'heeeeeeeeer')
 
   res.status(StatusCodes.OK).json({ msg: "User details updated successfully" });
 };
-
-// const updateUser = async (req, res) => {
-//   const { user_id } = req.params;
-//   const user = await USERS.findOne({ where: { user_id } });
-//   if (!user) {
-//     throw new NOT_FOUND(`There is no user with an id of ${user_id}`);
-//   }
-//   checkPermissions({ reqUser: req.user, resUser: user.user_id });
-//   await USERS.update(req.body, {
-//     where: { user_id },
-//   });
-//   res.status(StatusCodes.OK).json({ msg: "User details updated successfully" });
-// };
-// const deleteUser = async (req, res) => {
-//   const { user_id } = req.params;
-//   const user = await USERS.findOne({ where: { user_id } });
-//   if (!user) {
-//     throw new NOT_FOUND(`There is no user with an id of ${user_id}`);
-//   }
-//   checkPermissions({ reqUser: req.user, resUser: user.user_id });
-//   await USERS.destroy({
-//     where: { user_id },
-//   });
-//   res.status(StatusCodes.OK).json({
-//     msg: `User details with the id:${user_id} removed permanently`,
-//   });
-// };
 const uploadAvatar = async (req, res) => {
   const userImage = req.files.image;
   //   console.log(userImage);
@@ -291,5 +264,4 @@ module.exports = {
   uploadAvatar,
   subscribeToEmail,
   unSubscribeToEmail,
-  //   deleteUser,
 };
