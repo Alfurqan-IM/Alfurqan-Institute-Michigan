@@ -8,6 +8,7 @@ const {
   NOT_FOUND,
   UNAUTHORIZED,
 } = require("../middleware/customErrors");
+const { Op, Sequelize } = require("sequelize");
 const { StatusCodes } = require("http-status-codes");
 const cloudinary = require("cloudinary").v2;
 const createProgrammes = async (req, res) => {
@@ -170,7 +171,26 @@ const updateProgrammeOutcome = async (req, res) => {
   });
 };
 const getAllProgrammes = async (req, res) => {
+  const queryObject = {};
+  const totalProgrammes = await PROGRAMMES.count();
+  const fieldsToCheck = {
+    title: (value) => ({
+      [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
+    }),
+  };
+  Object.keys(req.query).forEach((key) => {
+    if (fieldsToCheck[key]) {
+      queryObject[key] = fieldsToCheck[key](req.query[key]);
+    }
+  });
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 5;
+  const offset = (page - 1) * limit;
+  const numOfPages = Math.ceil(totalProgrammes / limit);
   const programmes = await PROGRAMMES.findAll({
+    where: { ...queryObject },
+    limit,
+    offset,
     include: [
       {
         model: IMAGES,
@@ -182,7 +202,14 @@ const getAllProgrammes = async (req, res) => {
       },
     ],
   });
-  res.status(StatusCodes.OK).json({ programmes });
+  res
+    .status(StatusCodes.OK)
+    .json({
+      programmes,
+      numOfPages,
+      totalProgrammes,
+      currentCount: programmes.length,
+    });
 };
 const getSingleProgramme = async (req, res) => {
   const { programme_id } = req.params;

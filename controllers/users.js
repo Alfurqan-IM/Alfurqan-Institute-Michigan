@@ -63,7 +63,7 @@ const getAllUsers = async (req, res) => {
     }
   });
 
-  const page = Number(req.query.pages) || 1;
+  const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalUsers / limit);
@@ -91,7 +91,18 @@ const getAllUsers = async (req, res) => {
   const users = await USERS.findAll({
     where: { ...queryObject },
     // logging: console.log,
-    attributes: fields ? fields.split(",") : { exclude: ["password"] },
+    attributes: fields
+      ? fields.split(",")
+      : {
+          exclude: [
+            "password",
+            "verificationString",
+            "passwordToken",
+            "passwordExpirationDate",
+            "createdAt",
+            "updatedAt",
+          ],
+        },
     order: sortList,
     limit,
     offset,
@@ -126,7 +137,17 @@ const getSingleUser = async (req, res) => {
   const user = await USERS.findOne({
     where: { user_id },
     attributes: {
-      exclude: ["password"], // Exclude the password field
+      exclude: [
+        "password",
+        "blacklisted",
+        "verificationString",
+        "isVerified",
+        "verified",
+        "passwordToken",
+        "passwordExpirationDate",
+        "createdAt",
+        "updatedAt",
+      ], // Exclude the password field
     },
   });
   if (!user) {
@@ -138,7 +159,7 @@ const getSingleUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const { user_id } = req.params;
-console.log(user_id,'heeeeeeeeer')
+  console.log(user_id, "heeeeeeeeer");
   // Find the user
   const user = await USERS.findOne({ where: { user_id } });
   if (!user) {

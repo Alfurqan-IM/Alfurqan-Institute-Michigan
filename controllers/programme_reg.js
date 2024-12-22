@@ -10,6 +10,7 @@ const {
 } = require("../middleware/customErrors");
 const { StatusCodes } = require("http-status-codes");
 const { checkPermissions } = require("../middleware/authentication");
+const { Op, Sequelize } = require("sequelize");
 const createReg = async (req, res) => {
   const { programme, discovery_method, category } = req.body;
 
@@ -131,16 +132,27 @@ const deleteReg = async (req, res) => {
   }
 };
 const getUserRegistrations = async (req, res) => {
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 5;
+  const offset = (page - 1) * limit;
+//   const numOfPages = Math.ceil(totalReg / limit);
   try {
     // Retrieve all registrations for the logged-in user
     const registrations = await REG.findAll({
       where: { user_id: req.user.user_id },
+      limit,
+      offset,
       include: [
         { model: PROGRAMMES, attributes: ["title"], as: "linkedProgramme" }, // Include programme details
       ],
     });
 
-    res.status(StatusCodes.OK).json({ registrations });
+    res.status(StatusCodes.OK).json({
+      registrations,
+      currentCount: registrations.length,
+      // numOfPages,
+      // totalReg,
+    });
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -148,9 +160,46 @@ const getUserRegistrations = async (req, res) => {
   }
 };
 const getAllRegistrations = async (req, res) => {
+  const queryObject = {};
+  const totalReg = await REG.count();
+  const fieldsToCheck = {
+    user_id: (value) => value,
+    programme_id: (value) => value,
+    programme: (value) => ({
+      [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
+    }),
+    discovery_method: (value) => ({
+      [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
+    }),
+    category: (value) => {
+      if (value === "---") {
+        return {
+          [Sequelize.Op.or]: ["adult", "youth"],
+        };
+      }
+      if (value !== "---" && value !== undefined) {
+        return value;
+      }
+
+      return undefined;
+    },
+  };
+  Object.keys(req.query).forEach((key) => {
+    if (fieldsToCheck[key]) {
+      queryObject[key] = fieldsToCheck[key](req.query[key]);
+    }
+  });
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 5;
+  const offset = (page - 1) * limit;
+  const numOfPages = Math.ceil(totalReg / limit);
   try {
     // Retrieve all registrations across all users
     const registrations = await REG.findAll({
+      where: { ...queryObject },
+      limit,
+      offset,
+      numOfPages,
       include: [
         {
           model: USERS,
@@ -168,8 +217,36 @@ const getAllRegistrations = async (req, res) => {
         { model: PROGRAMMES, attributes: ["title"], as: "linkedProgramme" }, // Include programme details
       ],
     });
-
-    res.status(StatusCodes.OK).json({ registrations });
+    const categoryCount = await REG.findAll({
+      attributes: [
+        "category",
+        [Sequelize.fn("COUNT", Sequelize.col("reg_id")), "count"],
+      ],
+      group: ["category"],
+    });
+    const programmeCount = await REG.findAll({
+      attributes: [
+        "programme",
+        [Sequelize.fn("COUNT", Sequelize.col("reg_id")), "count"],
+      ],
+      group: ["programme"],
+    });
+    const discoveryCount = await REG.findAll({
+      attributes: [
+        "discovery_method",
+        [Sequelize.fn("COUNT", Sequelize.col("reg_id")), "count"],
+      ],
+      group: ["discovery_method"],
+    });
+    res.status(StatusCodes.OK).json({
+      registrations,
+      categoryCount,
+      programmeCount,
+      discoveryCount,
+      numOfPages,
+      totalReg,
+      currentCount: registrations.length,
+    });
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)

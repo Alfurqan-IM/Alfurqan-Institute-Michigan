@@ -30,7 +30,7 @@ const getAllEnquiries = async (req, res) => {
     }
   });
 
-  const page = Number(req.query.pages) || 1;
+  const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalEnq / limit);
@@ -57,7 +57,7 @@ const getAllEnquiries = async (req, res) => {
   res.status(StatusCodes.OK).json({
     enquiries,
     totalEnq,
-    count: enquiries.length,
+    currentCount: enquiries.length,
     numOfPages,
   });
 };
