@@ -1,5 +1,5 @@
 const router = require("express").Router();
-
+const { feedbackLimiter } = require("../utils/limiter");
 const {
   createFeedback,
   getAllFeedBack,
@@ -15,11 +15,11 @@ const {
 router
   .route("/")
   .get(authenticated, authorizedPermissions("admin"), getAllFeedBack)
-  .post(authenticated, createFeedback);
+  .post(authenticated, feedbackLimiter, createFeedback);
 router.route("/user").get(authenticated, getUserFeedback);
 router
   .route("/:feedback_id")
   .delete(authenticated, removeFeedback)
-  .patch(authenticated, updateFeedback);
+  .patch(authenticated, feedbackLimiter, updateFeedback);
 
 module.exports = router;

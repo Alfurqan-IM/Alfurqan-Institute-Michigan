@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { feedbackLimiter } = require("../utils/limiter");
 const {
   editReg,
   deleteReg,
@@ -20,7 +21,7 @@ router
 router
   .route("/user")
   .get(authenticated, getUserRegistrations)
-  .post(authenticated, createReg);
+  .post(authenticated, feedbackLimiter, createReg);
 
 // Admin Route
 router

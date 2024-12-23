@@ -1,12 +1,11 @@
 const router = require("express").Router();
-
+const { resetPasswordLimiter} = require("../utils/limiter");
 const {
   register,
   verifyMail,
   login,
   showMe,
   logout,
-  // checkUserRegisterationStatus,
   forgotPassword,
   resetPassword,
   blacklist,
@@ -25,9 +24,8 @@ router.route("/login").post(login);
 router.route("/google").get(googleAuth);
 router.route("/google/callback").get(googleCallBack);
 router.route("/logout").delete(authenticated, logout);
-// router.route("/check").post(checkUserRegisterationStatus);
 router.route("/forgotpassword").post(forgotPassword);
-router.route("/resetpassword").patch(resetPassword);
+router.route("/resetpassword").patch(resetPasswordLimiter, resetPassword);
 router.route("/updatepassword").patch(authenticated, updateUserPassword);
 router.route("/showme").get(authenticated, showMe);
 router

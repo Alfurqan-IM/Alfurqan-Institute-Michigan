@@ -1,5 +1,5 @@
 const router = require("express").Router();
-
+const { feedbackLimiter } = require("../utils/limiter");
 const {
   createEnquiry,
   getAllEnquiries,
@@ -14,7 +14,7 @@ const {
 router
   .route("/")
   .get(authenticated, authorizedPermissions("admin"), getAllEnquiries)
-  .post(createEnquiry);
+  .post(feedbackLimiter, createEnquiry);
 router
   .route("/:enq_id")
   .delete(authenticated, authorizedPermissions("admin"), removeEnquiry)

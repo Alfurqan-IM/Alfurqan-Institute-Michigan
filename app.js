@@ -8,18 +8,38 @@ const connectDB = require("./models");
 const path = require("path");
 
 // security
-const rateLimiter = require("express-rate-limit");
 const helmet = require("helmet");
 const xss = require("xss-clean");
 const cors = require("cors");
 
-// Always restrict CORS to specific origins in production.
-// Use environment variables to dynamically configure the allowed origin based on the environment (development or production).
-// Avoid allowing all origins (*) in production to prevent unauthorized access.
+// cors config
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests from localhost or 127.0.0.1 with any port
+    if (
+      origin &&
+      (origin.startsWith("http://localhost") ||
+        origin.startsWith("http://127.0.0.1"))
+    ) {
+      callback(null, true);
+    } else if (origin === undefined || origin === process.env.PRODUCTION_URL) {
+      // Allow production domain or non-browser requests (like Postman)
+      callback(null, true);
+    } else {
+      // Block other origins
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true, // Allow cookies or credentials
+};
+app.use(cors(corsOptions));
+
 //middleware
 app.use(express.json());
 const morgan = require("morgan");
 app.use(morgan("dev"));
+// app.use(helmet()); // Security headers
+app.use(xss()); // Prevent XSS attacks
 const passport = require("passport");
 require("./middleware/passportConfig");
 
@@ -36,6 +56,11 @@ app.use(cookieParser(process.env.JWT_SECRET));
 // uplaod files
 const cloudinary = require("cloudinary").v2;
 const fileUpload = require("express-fileupload");
+
+// rate limiter
+const { loginLimiter, apiLimiter } = require("./utils/limiter");
+app.set("trust proxy", 1);
+app.use(apiLimiter);
 
 // Router
 const authRoutes = require("./routes/authFlowRouter");
@@ -59,12 +84,16 @@ cloudinary.config({
 });
 
 //  google auth
+// app.get("/", (req, res) => {
+//   res.send('<a href="/api/v1/authentication/google">login with google</a>');
+// });
+
 app.get("/", (req, res) => {
-  res.send('<a href="/api/v1/authentication/google">login with google</a>');
+  res.send("API is running and accepting requests.");
 });
 
 // use Routes
-app.use("/api/v1/authentication", authRoutes);
+app.use("/api/v1/authentication", loginLimiter, authRoutes);
 app.use("/api/v1/banners", bannerRoutes);
 app.use("/api/v1/enquiries", enquiriesRoutes);
 app.use("/api/v1/programmes", programmesRoutes);
