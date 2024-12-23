@@ -8,6 +8,7 @@ const {
   NOT_FOUND,
   UNAUTHORIZED,
 } = require("../middleware/customErrors");
+const { Op, Sequelize } = require("sequelize");
 const { StatusCodes } = require("http-status-codes");
 const cloudinary = require("cloudinary").v2;
 const createProgrammes = async (req, res) => {
@@ -32,7 +33,7 @@ const createProgrammes = async (req, res) => {
   ) {
     throw new BAD_REQUEST("some input fields are missing");
   }
-  const programme = await PROGRAMMES.create({ ...req.body });
+  await PROGRAMMES.create({ ...req.body });
   res.status(StatusCodes.OK).json({ msg: "Programme created succesfully" });
 };
 
@@ -169,9 +170,84 @@ const updateProgrammeOutcome = async (req, res) => {
     msg: "pogramme outcome updated successfully",
   });
 };
+const getAllProgrammes = async (req, res) => {
+  const queryObject = {};
+  const totalProgrammes = await PROGRAMMES.count();
+  const fieldsToCheck = {
+    title: (value) => ({
+      [Sequelize.Op.like]: Sequelize.fn("LOWER", `%${value.toLowerCase()}%`),
+    }),
+  };
+  Object.keys(req.query).forEach((key) => {
+    if (fieldsToCheck[key]) {
+      queryObject[key] = fieldsToCheck[key](req.query[key]);
+    }
+  });
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 5;
+  const offset = (page - 1) * limit;
+  const numOfPages = Math.ceil(totalProgrammes / limit);
+  const programmes = await PROGRAMMES.findAll({
+    where: { ...queryObject },
+    limit,
+    offset,
+    include: [
+      {
+        model: IMAGES,
+        required: false,
+      },
+      {
+        model: OUTCOMES,
+        required: false,
+      },
+    ],
+  });
+  res
+    .status(StatusCodes.OK)
+    .json({
+      programmes,
+      numOfPages,
+      totalProgrammes,
+      currentCount: programmes.length,
+    });
+};
+const getSingleProgramme = async (req, res) => {
+  const { programme_id } = req.params;
+  const programme = await PROGRAMMES.findOne({
+    where: { programme_id },
+    include: [
+      {
+        model: IMAGES,
+        required: false,
+      },
+      {
+        model: OUTCOMES,
+        required: false,
+      },
+    ],
+  });
+  if (!programme) {
+    throw new NOT_FOUND(`There is no programme with an id of ${programme_id}`);
+  }
+  res.status(StatusCodes.OK).json({ programme });
+};
+const updateProgramme = async (req, res) => {
+  const { programme_id } = req.params;
+  const programme = await PROGRAMMES.findOne({ where: { programme_id } });
+  if (!programme) {
+    throw new NOT_FOUND(`There is no programme with an id of ${programme_id}`);
+  }
+  await PROGRAMMES.update(req.body, {
+    where: { programme_id },
+  });
+  res.status(StatusCodes.OK).json({ msg: "Programme updated successfully" });
+};
 module.exports = {
   createProgrammes,
   deleteProgramme,
   uploadPrgrammeImages,
   updateProgrammeOutcome,
+  getAllProgrammes,
+  getSingleProgramme,
+  updateProgramme,
 };

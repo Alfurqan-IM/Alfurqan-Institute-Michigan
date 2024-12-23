@@ -66,6 +66,10 @@ module.exports = function (sequelize, DataTypes) {
     }
   );
 
-  
+  programmesimages.associate = function (models) {
+    programmesimages.belongsTo(models.programmes, {
+      foreignKey: "programme_id",
+    });
+  };
   return programmesimages;
 };

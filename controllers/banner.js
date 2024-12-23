@@ -12,13 +12,20 @@ const createBanner = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "banner created successfully" });
 };
 const getAllBanners = async (req, res) => {
-  const banner = await Banner.findAll({});
-  res.status(StatusCodes.OK).json({ banner, count: banner.length });
+  const totalBanners = await Banner.count();
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 5;
+  const offset = (page - 1) * limit;
+  const numOfPages = Math.ceil(totalBanners / limit);
+  const banner = await Banner.findAll({ limit, offset });
+  res
+    .status(StatusCodes.OK)
+    .json({ banner, currentCount: banner.length, numOfPages, totalBanners });
 };
 
 const uploadBannerImg = async (req, res) => {
   const banner_img = req.files.image;
-//   console.log(banner_img);
+  //   console.log(banner_img);
   const { banner_id } = req.params;
   //   console.log(banner_img);
   if (!banner_img.mimetype.startsWith("image")) {
@@ -46,7 +53,7 @@ const uploadBannerImg = async (req, res) => {
       folder: "AIM banner's Images",
     }
   );
-  console.log(result);
+  // console.log(result);
   banner.image = result.secure_url;
   banner.image_public_id = result.public_id;
   await banner.save();

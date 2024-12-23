@@ -53,6 +53,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.TEXT,
         allowNull: true,
       },
+      img_public_id: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+      },
       gender: {
         type: DataTypes.ENUM("male", "female"),
         allowNull: true,

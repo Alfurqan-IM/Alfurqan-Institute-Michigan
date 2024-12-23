@@ -30,7 +30,7 @@ const getAllEnquiries = async (req, res) => {
     }
   });
 
-  const page = Number(req.query.pages) || 1;
+  const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 5;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalEnq / limit);
@@ -57,9 +57,20 @@ const getAllEnquiries = async (req, res) => {
   res.status(StatusCodes.OK).json({
     enquiries,
     totalEnq,
-    count: enquiries.length,
+    currentCount: enquiries.length,
     numOfPages,
   });
+};
+const updateEnquiry = async (req, res) => {
+  const { enq_id } = req.params;
+  const enquiry = await Enquiries.findOne({ where: { enq_id } });
+  if (!enquiry) {
+    throw new NOT_FOUND(`There is no enquiry with an id of ${enq_id}`);
+  }
+  await Enquiries.update(req.body, {
+    where: { enq_id },
+  });
+  res.status(StatusCodes.OK).json({ msg: "Enquiries updated successfully" });
 };
 const removeEnquiry = async (req, res) => {
   const { enq_id } = req.params;
@@ -72,4 +83,9 @@ const removeEnquiry = async (req, res) => {
     msg: `enquiry with the id of ${enq_id} has been deleted successfully`,
   });
 };
-module.exports = { createEnquiry, getAllEnquiries, removeEnquiry };
+module.exports = {
+  createEnquiry,
+  getAllEnquiries,
+  removeEnquiry,
+  updateEnquiry,
+};

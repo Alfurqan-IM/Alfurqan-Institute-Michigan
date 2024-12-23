@@ -14,8 +14,8 @@ const {
 
 router
   .route("/")
-  .post(authenticated, authorizedPermissions("admin"), createBanner);
-router.route("/").get(getAllBanners);
+  .post(authenticated, authorizedPermissions("admin"), createBanner)
+  .get(getAllBanners);
 router
   .route("/uploadbannerimg/:banner_id")
   .patch(authenticated, authorizedPermissions("admin"), uploadBannerImg);

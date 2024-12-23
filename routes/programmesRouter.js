@@ -5,6 +5,9 @@ const {
   deleteProgramme,
   uploadPrgrammeImages,
   updateProgrammeOutcome,
+  getSingleProgramme,
+  getAllProgrammes,
+  updateProgramme,
 } = require("../controllers/programmes");
 const {
   authenticated,
@@ -13,10 +16,13 @@ const {
 
 router
   .route("/")
-  .post(authenticated, authorizedPermissions("admin"), createProgrammes);
+  .post(authenticated, authorizedPermissions("admin"), createProgrammes)
+  .get(getAllProgrammes);
 router
   .route("/:programme_id")
-  .delete(authenticated, authorizedPermissions("admin"), deleteProgramme);
+  .delete(authenticated, authorizedPermissions("admin"), deleteProgramme)
+  .get(getSingleProgramme)
+  .patch(authenticated, authorizedPermissions("admin"), updateProgramme);
 router
   .route("/uploadprogrammeimages/:programme_id")
   .patch(authenticated, authorizedPermissions("admin"), uploadPrgrammeImages);
