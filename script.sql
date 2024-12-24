@@ -66,6 +66,8 @@ describe banner;
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+alter table enquiries add column status enum('pending','resolved') default 'pending';
+alter table enquiries modify column status enum('pending','resolved') default 'pending' after message;
 select * from enquiries;
 describe enquiries;
 SELECT CONSTRAINT_NAME
@@ -78,12 +80,12 @@ ALTER TABLE enquiries DROP INDEX email;
     programme_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL, -- Removed UNIQUE, changed to TEXT
+    heading VARCHAR(100),
     about TEXT NOT NULL,
     time VARCHAR(100) NOT NULL, -- Changed TEXT to VARCHAR
     year YEAR, -- Replaced VARCHAR(50) with YEAR
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
-    heading VARCHAR(100),
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -100,5 +102,105 @@ CREATE TABLE programmesImages (
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+CREATE TABLE programmeOutcomes (
+    outcome_id INT AUTO_INCREMENT PRIMARY KEY,
+    programme_id int,
+    outcome1 VARCHAR(255) default '/uploads/example.jpeg',
+    outcome2 VARCHAR(255) default '/uploads/example.jpeg',
+    outcome3 VARCHAR(255) default '/uploads/example.jpeg',
+    foreign key (programme_id) references programmes(programme_id),
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
+show tables;
+select * from programmes;
+select * from programmesimages;
+select * from programmeoutcomes;
+describe programmes;
+ALTER TABLE programmes MODIFY COLUMN year INT NOT NULL;
+alter table programmesimages change image3_public_id image2_public_id varchar(255);
+show databases;
+use apiaries_16;
+select * from product_images;
 
+CREATE TABLE programme_reg (
+    reg_id INT AUTO_INCREMENT PRIMARY KEY,
+    programme_id INT NOT NULL,
+    user_id INT NOT NULL,
+    programme ENUM(
+        "Ta'afiz Alqur'an",
+        'Arabic Language studies',
+        'Vocational Training',
+        'Islamic studies',
+        'Islamic Conference',
+        'Free Iftar Meal'
+    ) NOT NULL,
+    category ENUM(
+        "Youth",
+        'Adult'
+    ) NOT NULL,
+    discovery_method ENUM(
+        'Masjid',
+        'Social Media',
+        'Email Campaign',
+        'Referral',
+        'Website',
+        'Event/Workshop',
+        'Advertisement',
+        'Friends',
+        'Other'
+    ) NOT NULL,
+    FOREIGN KEY (programme_id) REFERENCES programmes(programme_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+ALTER TABLE programme_reg
+MODIFY COLUMN  programme ENUM(
+        'Ta-afiz Alquran',
+        'Arabic Language studies',
+        'Vocational Training',
+        'Islamic studies',
+        'Islamic Conference',
+        'Free Iftar Meal'
+    ) NOT NULL;
+
+CREATE TABLE feedbackComplaints (
+    feedback_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    programme_id INT,
+    subject VARCHAR(255) NOT NULL,
+    notes TEXT NOT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (programme_id) REFERENCES programmes(programme_id)
+);
+CREATE TABLE quran_surahs (
+    surah_id INT AUTO_INCREMENT PRIMARY KEY,
+    surah VARCHAR(255) default null,
+    verse int,
+    translation TEXT default null,
+    transliteration TEXT default null,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+describe feedbackComplaints;
+show tables;
+select * from users;
+select * from quran_surahs;
+select * from programme_reg;
+describe programme_reg;
+select * from feedbackcomplaints;
+SHOW CREATE TABLE feedbackcomplaints;
+describe feedbackcomplaints;
+ALTER TABLE feedbackcomplaints DROP FOREIGN KEY `feedbackcomplaints_ibfk_2`;
+ALTER TABLE feedbackcomplaints DROP COLUMN programme_id;
+SELECT 
+    CONSTRAINT_NAME, TABLE_NAME, COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
+FROM 
+    INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+WHERE 
+    TABLE_NAME = 'feedbackcomplaints';
+alter table users add column img_public_id varchar(255) null after image; 
