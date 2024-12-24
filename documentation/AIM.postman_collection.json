@@ -1,0 +1,1474 @@
+{
+	"info": {
+		"_postman_id": "147ecfb9-483f-4620-b71b-7deba13c5876",
+		"name": "AIM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25879868"
+	},
+	"item": [
+		{
+			"name": "AUTH",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{AIM}}/authentication/register",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"authentication",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"alfurqanaim@gmail.com\",\r\n    \"verificationString\": \"80adb6bd9591458281e37d0b9ace382e435ff5c5dd7fe4726df1dbd18abb5e4673549bf7645d2b58\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/authentication/verify-email",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"authentication",
+								"verify-email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"SecurePass123\",\r\n  \"email\": \"alfurqanaim@gmail.com\",\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/authentication/login",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"authentication",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GoogleLogin",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/authentication/google",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"authentication",
+								"google"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "forgotPassword",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"SecurePass123\",\r\n  \"email\": \"alfurqanaim@gmail.com\",\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/authentication/login",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"authentication",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "resetPassword",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"password\": \"SecurePass123\",\r\n\"email\": \"alfurqanaim@gmail.com\",\r\n\"token\": \"e4f181bb1a4b4150da58329f1b64be91fd9c9ba9a5288663208ae0ffdaf720c0d3b0c4b1d31e9526\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/authentication/resetpassword",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"authentication",
+								"resetpassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePassword",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"password\": \"SecurePass123\",\r\n\"email\": \"alfurqanaim@gmail.com\",\r\n\"token\": \"e4f181bb1a4b4150da58329f1b64be91fd9c9ba9a5288663208ae0ffdaf720c0d3b0c4b1d31e9526\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/authentication/resetpassword",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"authentication",
+								"resetpassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "blacklist",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"blacklist\":false,\r\n   \"isValid\":true \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/authentication/blacklist/3",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"authentication",
+								"blacklist",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "showMe",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"SecurePass123\",\r\n  \"email\": \"alfurqanaim@gmail.com\",\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/authentication/showme",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"authentication",
+								"showme"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/authentication/logout",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"authentication",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BANNER",
+			"item": [
+				{
+					"name": "createBanner",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n  \"title\": \"Adult and Youth Ta'fiz qur'an\",\r\n  \"description\": \"A program to build a deep connection with the Book of Allah (SWT) .Registration Is Open for Adult & Youth.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/banners",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"banners"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllBanners",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/banners/",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"banners",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "uploadBannerImg",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{AIM}}/banners/uploadbannerimg",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"banners",
+								"uploadbannerimg"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateBanner",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{AIM}}/banners/2",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"banners",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removeBanner",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{AIM}}/banners/1",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"banners",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ENQUIRIES",
+			"item": [
+				{
+					"name": "createEnq",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"ibrahim\",\r\n  \"email\": \"tasiguduu2@gmail.com\",\r\n  \"message\": \"I am making my third enquiry\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/enquiries",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"enquiries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllEnq",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/enquiries/",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"enquiries",
+								""
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "tasiguduu2",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "ibrahim",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removeEnq",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/enquiries/2",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"enquiries",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateEnq",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"resolved\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/enquiries/2",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"enquiries",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PROGRAMMES",
+			"item": [
+				{
+					"name": "createProgramme",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Introduction to Programming\",\r\n  \"description\": \"A beginner-level programme that introduces participants to the basics of programming using Python.\",\r\n  \"about\": \"This programme covers foundational programming concepts such as variables, loops, and functions.\",\r\n  \"time\": \"2 hours per week\",\r\n  \"year\": 2024,\r\n  \"start_date\": \"2024-01-15\",\r\n  \"end_date\": \"2024-05-15\",\r\n   \"heading\": \"Learn Programming\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/programmes",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"programmes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteProgramme",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/programmes/1",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"programmes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllProgrammes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/programmes/",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"programmes",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "ara",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSingleProgramme",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/programmes/2",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"programmes",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "uploadimages",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image0",
+									"type": "file",
+									"src": "/C:/Users/OMOTOLANI/Desktop/AIM/assets/tafiz.jpg"
+								},
+								{
+									"key": "image1",
+									"type": "file",
+									"src": "/C:/Users/OMOTOLANI/Desktop/AIM/assets/home scholl.jpg"
+								},
+								{
+									"key": "image2",
+									"type": "file",
+									"src": "/C:/Users/OMOTOLANI/Desktop/AIM/assets/vocational studies.jpg"
+								},
+								{
+									"key": "image3",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{AIM}}/programmes/uploadprogrammeimages/2",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"programmes",
+								"uploadprogrammeimages",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProgramme",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Introduction to Programming\",\r\n  \"description\": \"A beginner-level programme that introduces participants to the basics of programming using Python.\",\r\n  \"about\": \"This programme covers foundational programming concepts such as variables, loops, and functions.\",\r\n  \"time\": \"2 hours per week\",\r\n  \"year\": 2024,\r\n  \"start_date\": \"2024-01-15\",\r\n  \"end_date\": \"2024-05-15\",\r\n   \"heading\": \"Learn Programming\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/programmes/1",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"programmes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateOutcome",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"outcome1\": \"Exemplary lifestyle via moral training\",\r\n  \"outcome2\": \"Profound guidance from religious texts\",\r\n  \"outcome3\": \"Authentic islamic knowlegde and understaning\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/programmes/updateprogrammeoutcome/2",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"programmes",
+								"updateprogrammeoutcome",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "REGISTERATION",
+			"item": [
+				{
+					"name": "createReg",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"programme\": \"Environmental Sustainability\",\r\n  \"discovery_method\": \"Email Campaign\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/registerations/user",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"registerations",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserReg",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/registerations/user/?page=1",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"registerations",
+								"user",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllUsersReg",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/registerations/admin/",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"registerations",
+								"admin",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "youth",
+									"disabled": true
+								},
+								{
+									"key": "discovery_method",
+									"value": "Email Campaign",
+									"disabled": true
+								},
+								{
+									"key": "programme",
+									"value": "Free Iftar Meal",
+									"disabled": true
+								},
+								{
+									"key": "programme_id",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "user_id",
+									"value": "8",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateReg",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"programme\": \"Environmental Sustainability\",\r\n  \"discovery_method\": \"Email Campaign\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/registerations/user",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"registerations",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteReg",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/registerations/user/12",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"registerations",
+								"user",
+								"12"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FEEDBACK",
+			"item": [
+				{
+					"name": "createFeedback",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"subject\": \"Your Subject Here\",\r\n  \"notes\": \"Your notes here.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/feedback",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"feedback"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateFeedback",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"subject\": \"Your Subject Here\",\r\n  \"notes\": \"Your notes here.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/feedback/2",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"feedback",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllFeedBack",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/feedback/?page=1&sort=latest",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"feedback",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "sort",
+									"value": "latest"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserFeedBack",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/feedback/user/?page=2&sort=latest",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"feedback",
+								"user",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "sort",
+									"value": "latest"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteFeedBack",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/feedback/6",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"feedback",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "QURAN",
+			"item": [
+				{
+					"name": "addSurah",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surah\": \"Al-Fatiha\",\r\n  \"text\": \"بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\",\r\n  \"verse\":1,\r\n  \"translation\": \"In the name of Allah, the Most Gracious, the Most Merciful.\",\r\n  \"transliteration\": \"Bismillahir Rahmanir Raheem\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/surah",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"surah"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateSurah",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"surah\": \"Al-Baqarah\",\r\n  \"text\": \"ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ\",\r\n  \"verse\": 2,\r\n  \"translation\": \"This is the Book about which there is no doubt, a guidance for those conscious of Allah.\",\r\n  \"transliteration\": \"Thalikal kitabu la rayba feehi hudal lilmuttaqeen\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/surah/2",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"surah",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSurah",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/surah",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"surah"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "getAllUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{AIM}}/users/",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"users",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "Z-A",
+									"disabled": true
+								},
+								{
+									"key": "notification",
+									"value": "---",
+									"disabled": true
+								},
+								{
+									"key": "blacklisted",
+									"value": "---",
+									"disabled": true
+								},
+								{
+									"key": "isVerified",
+									"value": "---",
+									"disabled": true
+								},
+								{
+									"key": "gender",
+									"value": "---",
+									"disabled": true
+								},
+								{
+									"key": "phone",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "alfurqanaim@gmail.com",
+									"disabled": true
+								},
+								{
+									"key": "last_name",
+									"value": "institute",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSingleUser",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIARIES}}/employee/2",
+							"host": [
+								"{{APIARIES}}"
+							],
+							"path": [
+								"employee",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateUser",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"first_name\": \"Apiaries\",\r\n        \"last_name\": \"16\",\r\n        \"user_name\": \"Apiaries 16\",\r\n        \"phone\": \"+234109947553790027637765\",\r\n        \"gender\": \"female\",\r\n        \"address\": \"please update your address\",\r\n        \"city\": \"please update your city\",\r\n        \"state\": \"please update your state\",\r\n        \"country\": \"please update your country\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/users/13",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"users",
+								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"first_name\": \"Alan\",\r\n  \"last_name\": \"smith jr\",\r\n  \"dob\": \"1985-05-15\",\r\n  \"phone\": \"123-456-7890\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"address\": \"123 Honey Street, Beeville\",\r\n  \"role\": \"supervisor\",\r\n  \"department\": \"operation\",\r\n  \"joining_date\": \"2020-01-10\",\r\n  \"salary\": 50000.000,\r\n  \"employment_status\": \"active\",\r\n  \"skill\": \"Beekeeping, Supervising\",\r\n  \"notes\": \"Experienced beekeeper and supervisor. Oversees the day-to-day operations.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APIARIES}}/employees/6",
+							"host": [
+								"{{APIARIES}}"
+							],
+							"path": [
+								"employees",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "uplaodAvatar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/OMOTOLANI/Pictures/profile pic.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{APIARIES}}/users/avatar",
+							"host": [
+								"{{APIARIES}}"
+							],
+							"path": [
+								"users",
+								"avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscribe",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"subscribe\": true\r\n  \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/users/subscribe/13",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"users",
+								"subscribe",
+								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UnSubscribe",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"unSubscribe\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{AIM}}/users/unsubscribe/13",
+							"host": [
+								"{{AIM}}"
+							],
+							"path": [
+								"users",
+								"unsubscribe",
+								"13"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "AIM",
+			"value": "http://localhost:5005/api/v1",
+			"type": "string"
+		}
+	]
+}
