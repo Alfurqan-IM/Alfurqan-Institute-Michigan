@@ -2,6 +2,10 @@
 
 A comprehensive web application designed to streamline event management, donation tracking, and impact reporting. Features include multi-language support, integrated prayer times, membership management, a donation platform with campaign visualization, and detailed fund allocation reporting.
 
+# Postman Documentation
+Access the published Postman documentation for this project [here](https://documenter.getpostman.com/view/25879868/2sAYJ4ig6X).
+
+
 # Git Workflow Guide for Team Members
 
 Welcome to the team! This document will guide you through the process of working with our project's Git repository, using GitHub to manage your contributions, and ensuring your changes are properly merged into the main repository. The steps below outline the workflow, from forking the original repository to submitting a pull request (PR).
