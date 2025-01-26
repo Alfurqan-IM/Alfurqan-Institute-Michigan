@@ -184,7 +184,7 @@ const getAllProgrammes = async (req, res) => {
     }
   });
   const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 5;
+  const limit = Number(req.query.limit) || 6;
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalProgrammes / limit);
   const programmes = await PROGRAMMES.findAll({
