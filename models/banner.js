@@ -26,6 +26,22 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
+      time: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+      },
+      year: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      start_date: {
+        type: DataTypes.DATEONLY,
+        allowNull: true,
+      },
+      end_date: {
+        type: DataTypes.DATEONLY,
+        allowNull: true,
+      },
     },
     {
       sequelize,
