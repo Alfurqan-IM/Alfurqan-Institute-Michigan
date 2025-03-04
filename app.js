@@ -73,6 +73,7 @@ const surahRoutes = require("./routes/surahRouter");
 const usersRoutes = require("./routes/usersRouter");
 const campaignRoutes = require("./routes/campaignRouter");
 const eventRoutes = require("./routes/eventsRouter");
+const donationRoutes = require("./routes/donationsRouter");
 
 // use passport config
 app.use(passport.initialize());
@@ -105,6 +106,7 @@ app.use("/api/v1/surah", surahRoutes);
 app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/campaigns", campaignRoutes);
 app.use("/api/v1/events", eventRoutes);
+app.use("/api/v1/donations", donationRoutes);
 
 //Error Handling Middleware for routes and interacting with the database
 app.use(notFound);
