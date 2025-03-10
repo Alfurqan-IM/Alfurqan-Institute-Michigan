@@ -28,3 +28,5 @@
    .delete(authenticated, authorizedPermissions("admin"), removeEvent);
 
  module.exports = router;
+
+ 

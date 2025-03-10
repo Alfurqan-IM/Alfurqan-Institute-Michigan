@@ -1,5 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const axios = require("axios");
+const crypto = require("crypto");
+const { BAD_REQUEST } = require("../middleware/customErrors");
 
 const getAllDonations = async (req, res) => {
   try {
@@ -180,7 +182,59 @@ const getAllDonors = async (req, res) => {
   }
 };
 
+const donationwebhook = async (req, res) => {
+  // console.log("Webhook received:", req.body);
+  const donorboxSignature = req.headers["donorbox-signature"];
+  // console.log(donorboxSignature);
+  if (!donorboxSignature) {
+    throw new BAD_REQUEST(
+      "Unauthorized request, Missing Donorbox-Signature header "
+    );
+  }
+  // Step 1: Extract timestamp and signature
+  const [timestamp, receivedSignature] = donorboxSignature.split(",");
+  if (!timestamp || !receivedSignature) {
+    throw new BAD_REQUEST(
+      "Unauthorized request, Invalid Donorbox-Signature format "
+    );
+  }
+
+  // Step 2: Generate the verification string
+  const verificationString = `${timestamp}.${req.rawBody}`;
+  // const verificationString = `${timestamp}.${receivedSignature}`;
+  // console.log(verificationString);
+  // Step 3: Compute the expected signature
+  const expectedSignature = crypto
+    .createHmac("sha256", process.env.SIGNATURE_SECRET)
+    .update(verificationString)
+    .digest("hex");
+  // console.log(expectedSignature, receivedSignature);
+  // Step 4: Validate the signature
+  if (expectedSignature !== receivedSignature) {
+    throw new BAD_REQUEST("Unauthorized request, Invalid signature");
+  }
+
+  // Step 5: Check the timestamp
+  const receivedTime = parseInt(timestamp, 10);
+  const currentTime = Math.floor(Date.now() / 1000); // Current timestamp in seconds
+  if (Math.abs(currentTime - receivedTime) > 60) {
+    // Allowable difference: 1 minute
+    throw new BAD_REQUEST(
+      "Unauthorized request, Request timestamp out of bounds"
+    );
+  }
+
+  console.log("Webhook validated successfully:", req.body);
+
+  // Emit the event to the frontend
+  const { type, data } = req.body;
+  io.emit("newDonation", data);
+
+  res.status(200).send("Webhook received successfully");
+};
+
 module.exports = {
   getAllDonations,
   getAllDonors,
+  donationwebhook,
 };

@@ -3,6 +3,7 @@ const router = require("express").Router();
 const {
   getAllDonations,
   getAllDonors,
+  donationwebhook,
 } = require("../controllers/donations");
 const {
   authenticated,
@@ -16,5 +17,7 @@ router
 router
   .route("/donors")
   .get(authenticated, authorizedPermissions("admin"), getAllDonors);
+router.route("/notification").post(donationwebhook);
 
 module.exports = router;
+

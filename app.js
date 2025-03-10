@@ -7,6 +7,11 @@ const port = process.env.PORT || 5005;
 const connectDB = require("./models");
 const path = require("path");
 
+const http = require("http");
+const { Server } = require("socket.io");
+
+
+
 // security
 const helmet = require("helmet");
 const xss = require("xss-clean");
@@ -35,13 +40,24 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 //middleware
-app.use(express.json());
+// app.use(express.json());
 const morgan = require("morgan");
 app.use(morgan("dev"));
 // app.use(helmet()); // Security headers
 app.use(xss()); // Prevent XSS attacks
 const passport = require("passport");
 require("./middleware/passportConfig");
+
+// Capture raw body for signature validation
+const bodyParser = require("body-parser");
+app.use(
+  bodyParser.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf.toString();
+    },
+  })
+); 
+
 
 // Error Handling Middleware
 const notFound = require("./middleware/notFoundError");
