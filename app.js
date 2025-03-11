@@ -7,6 +7,35 @@ const port = process.env.PORT || 5005;
 const connectDB = require("./models");
 const path = require("path");
 
+// webhook connection
+const http = require("http");
+const { Server } = require("socket.io");
+const server = http.createServer(app); // Create HTTP server for Socket.IO
+
+// ✅ Apply CORS for Socket.io
+const io = new Server(server, {
+  cors: {
+    origin: process.env.PRODUCTION_URL,
+    //origin: "http://localhost:3000", // Adjust based on frontend URL
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
+
+// ✅ Handle Socket.io Connections
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+  });
+});
+// Attach Socket.IO instance to request object
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
+
 // security
 const helmet = require("helmet");
 const xss = require("xss-clean");
@@ -35,13 +64,23 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 //middleware
-app.use(express.json());
+// app.use(express.json());
 const morgan = require("morgan");
 app.use(morgan("dev"));
 // app.use(helmet()); // Security headers
 app.use(xss()); // Prevent XSS attacks
 const passport = require("passport");
 require("./middleware/passportConfig");
+
+// Capture raw body for signature validation
+const bodyParser = require("body-parser");
+app.use(
+  bodyParser.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf.toString();
+    },
+  })
+);
 
 // Error Handling Middleware
 const notFound = require("./middleware/notFoundError");
@@ -73,6 +112,7 @@ const surahRoutes = require("./routes/surahRouter");
 const usersRoutes = require("./routes/usersRouter");
 const campaignRoutes = require("./routes/campaignRouter");
 const eventRoutes = require("./routes/eventsRouter");
+const donationRoutes = require("./routes/donationsRouter");
 
 // use passport config
 app.use(passport.initialize());
@@ -105,18 +145,18 @@ app.use("/api/v1/surah", surahRoutes);
 app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/campaigns", campaignRoutes);
 app.use("/api/v1/events", eventRoutes);
+app.use("/api/v1/donations", donationRoutes);
 
 //Error Handling Middleware for routes and interacting with the database
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
 // connect to DB and start Server
-// const x = 92;
 connectDB.sequelize
   .sync()
   .then(() => {
     // Start the Express server
-    app.listen(port, () => {
+    server.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
     });
   })
