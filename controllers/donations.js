@@ -201,14 +201,11 @@ const donationwebhook = async (req, res) => {
 
   // Step 2: Generate the verification string
   const verificationString = `${timestamp}.${req.rawBody}`;
-  // const verificationString = `${timestamp}.${receivedSignature}`;
-  // console.log(verificationString);
   // Step 3: Compute the expected signature
   const expectedSignature = crypto
     .createHmac("sha256", process.env.SIGNATURE_SECRET)
     .update(verificationString)
     .digest("hex");
-  // console.log(expectedSignature, receivedSignature);
   // Step 4: Validate the signature
   if (expectedSignature !== receivedSignature) {
     throw new BAD_REQUEST("Unauthorized request, Invalid signature");
@@ -223,14 +220,11 @@ const donationwebhook = async (req, res) => {
       "Unauthorized request, Request timestamp out of bounds"
     );
   }
-
-  console.log("Webhook validated successfully:", req.body);
-
   // Emit the event to the frontend
-  const { type, data } = req.body;
-  io.emit("newDonation", data);
-
-  res.status(200).send("Webhook received successfully");
+  const [data] = req.body;
+  console.log("Webhook validated successfully:", data);
+  req.io.emit("newDonation", data);
+  res.status(200).json({ msg: "Webhook received successfully" });
 };
 
 module.exports = {
