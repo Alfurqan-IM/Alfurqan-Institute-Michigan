@@ -2,7 +2,7 @@ const { campaigns_aim: Campaign } = require("../models");
 const { BAD_REQUEST, NOT_FOUND } = require("../middleware/customErrors");
 const { StatusCodes } = require("http-status-codes");
 const cloudinary = require("cloudinary").v2;
-
+const axios = require("axios");
 const createCampaign = async (req, res) => {
   const { title, description, donation_url } = req.body;
   if (!title || !description || !donation_url) {
@@ -18,9 +18,12 @@ const getAllCampaigns = async (req, res) => {
   const offset = (page - 1) * limit;
   const numOfPages = Math.ceil(totalCampaign / limit);
   const campaigns = await Campaign.findAll({ limit, offset });
-  res
-    .status(StatusCodes.OK)
-    .json({ campaigns, currentCount: campaigns.length, numOfPages, totalCampaign });
+  res.status(StatusCodes.OK).json({
+    campaigns,
+    currentCount: campaigns.length,
+    numOfPages,
+    totalCampaign,
+  });
 };
 
 const uploadCampaignImg = async (req, res) => {
@@ -87,10 +90,76 @@ const removeCampaign = async (req, res) => {
   });
 };
 
+// const getAllCampaignsDonor = async (req, res) => {
+//   const email = "alfurqanaim@gmail.com";
+//   const apiKey = process.env.API_KEY;
+//   const donorboxApiUrl = `https://donorbox.org/api/v1/campaigns?page=${
+//     Number(req.query.page) || 1
+//   }&per_page=${Number(req.query.limit) || 5}`;
+//   const config = {
+//     method: "GET",
+//     url: donorboxApiUrl,
+//     auth: {
+//       username: email,
+//       password: apiKey,
+//     },
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   };
+
+//   const response = await axios(config);
+//   res.status(StatusCodes.OK).json({ campaigns: response });
+// };
+const getAllCampaignsDonor = async (req, res) => {
+  try {
+    const email = "alfurqanaim@gmail.com";
+    const apiKey = process.env.DONOR_API_KEY;
+
+    if (!apiKey) {
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        error:
+          "API key is missing or incorrrect. Please check your environment variables.",
+      });
+    }
+    const { page = 1, limit = 5, id, name } = req.query;
+    let donorboxApiUrl = `https://donorbox.org/api/v1/campaigns?page=${Number(
+      page
+    )}&per_page=${Number(limit)}`;
+
+    if (id) {
+      donorboxApiUrl += `&id=${Number(id)}`;
+    }
+
+    if (name) {
+      donorboxApiUrl += `&name=${encodeURIComponent(name)}`;
+    }
+    const config = {
+      method: "GET",
+      url: donorboxApiUrl,
+      auth: {
+        username: email,
+        password: apiKey,
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios(config);
+    res.status(StatusCodes.OK).json({ campaigns: response.data });
+  } catch (error) {
+    console.error("Error fetching campaigns:", error.message);
+    res
+      .status(error.response?.status || StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: error.response?.data || "Failed to fetch campaigns" });
+  }
+};
 module.exports = {
   getAllCampaigns,
   createCampaign,
   uploadCampaignImg,
   updateCampaign,
   removeCampaign,
+  getAllCampaignsDonor,
 };

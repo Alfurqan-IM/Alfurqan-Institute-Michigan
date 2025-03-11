@@ -7,6 +7,7 @@ const {
   uploadCampaignImg,
   updateCampaign,
   removeCampaign,
+  getAllCampaignsDonor,
 } = require("../controllers/campaigns_aim");
 const {
   authenticated,
@@ -17,6 +18,8 @@ router
   .route("/")
   .post(authenticated, authorizedPermissions("admin"), createCampaign)
   .get(getAllCampaigns);
+router
+  .route("/donorCampaigns").get(getAllCampaignsDonor);
 router
   .route("/uploadcampaignimg/:campaign_id")
   .patch(authenticated, authorizedPermissions("admin"), uploadCampaignImg);
