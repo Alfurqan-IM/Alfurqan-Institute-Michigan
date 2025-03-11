@@ -152,7 +152,6 @@ app.use(notFound);
 app.use(errorHandlerMiddleware);
 
 // connect to DB and start Server
-// const x = 92;
 connectDB.sequelize
   .sync()
   .then(() => {
