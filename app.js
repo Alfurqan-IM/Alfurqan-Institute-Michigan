@@ -18,7 +18,7 @@ const io = new Server(server, {
     origin:
       process.env.NODE_ENV === "production"
         ? process.env.PRODUCTION_URL
-        : "http://localhost:3000",
+        : "http://localhost:3000,
     methods: ["GET", "POST"],
     credentials: true,
   },
