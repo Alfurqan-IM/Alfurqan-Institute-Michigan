@@ -147,7 +147,7 @@ const getAllCampaignsDonor = async (req, res) => {
     };
 
     const response = await axios(config);
-
+    
     // ✅ Filter: Only campaigns that have a goal amount
     const campaignsOnly = response.data.filter(
       (c) => c.goal_amt !== null
