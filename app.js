@@ -15,8 +15,8 @@ const server = http.createServer(app); // Create HTTP server for Socket.IO
 // ✅ Apply CORS for Socket.io
 const io = new Server(server, {
   cors: {
-    origin: process.env.PRODUCTION_URL,
-    //origin: "http://localhost:3000", // Adjust based on frontend URL
+    // origin: process.env.PRODUCTION_URL,
+    origin: "http://localhost:3000", // Adjust based on frontend URL
     methods: ["GET", "POST"],
     credentials: true,
   },
