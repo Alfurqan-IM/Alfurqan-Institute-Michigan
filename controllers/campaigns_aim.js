@@ -147,7 +147,12 @@ const getAllCampaignsDonor = async (req, res) => {
     };
 
     const response = await axios(config);
-    res.status(StatusCodes.OK).json({ campaigns: response.data });
+    
+    // ✅ Filter: Only campaigns that have a goal amount
+    const campaignsOnly = response.data.filter(
+      (c) => c.goal_amt !== null
+    );
+    res.status(StatusCodes.OK).json({ campaigns: campaignsOnly });
   } catch (error) {
     console.error("Error fetching campaigns:", error.message);
     res
