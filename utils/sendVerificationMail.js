@@ -9,7 +9,7 @@ const sendVerificationMail = ({
   fullname,
 }) => {
   const { first_name, last_name } = fullname;
-  const verifyEmail = `${origin}/authflow/verify-email?token=${verificationString}&email=${email}`;
+  const verifyEmail = `${origin}/authentication/verify-email?token=${verificationString}&email=${email}`;
   // console.log(verifyEmail);
   const mailGenerator = new Mailgen({
     theme: "default",
