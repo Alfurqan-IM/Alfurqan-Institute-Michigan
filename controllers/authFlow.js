@@ -76,7 +76,7 @@ const register = async (req, res) => {
   });
   res.status(StatusCodes.CREATED).json({
     msg: "Please check your mail and complete your registeration",
-    // verificationString,
+    verificationString,
   });
 };
 
@@ -226,8 +226,8 @@ const forgotPassword = async (req, res) => {
   user.passwordToken = passwordToken;
   user.passwordExpirationDate = new Date(Date.now() + tenMin);
   await user.save();
-  const origin = "http://localhost:5005";
-  // const origin = "https://apiariessixteen.onrender.com";
+  //const origin = "http://localhost:5005";
+  const origin = "https://alfurqaninstitute.onrender.com/api/v1";
   await sendPasswordResetMail({
     origin,
     email: user.email,
