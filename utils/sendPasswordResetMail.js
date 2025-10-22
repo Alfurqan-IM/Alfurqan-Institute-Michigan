@@ -4,7 +4,7 @@ const moment = require("moment");
 
 const sendPasswordResetMail = ({ origin, email, passwordToken, fullname }) => {
   const { first_name, last_name } = fullname;
-  const resetPassword = `${origin}/authentication/reset-password?token=${passwordToken}&email=${email}`;
+  const resetPassword = `${origin}/authentication/resetpassword?token=${passwordToken}&email=${email}`;
   const mailGenerator = new Mailgen({
     theme: "default",
     product: {

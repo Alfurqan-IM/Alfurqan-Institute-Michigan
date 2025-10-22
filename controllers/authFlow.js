@@ -64,8 +64,8 @@ const register = async (req, res) => {
   };
   // console.log(userObject);
   const user = await USERS.create(userObject);
-  const origin = "http://localhost:5005";
-  // const origin = "http://localhost:5173";
+  //const origin = "http://localhost:5005";
+  const origin = "https://alfurqaninstitute.onrender.com/api/v1";
 
   // verify Email
   await sendVerificationMail({
