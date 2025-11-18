@@ -31,19 +31,8 @@ const verifyToken = (token) => {
 };
 
 const attachResponseToCookie = ({ res, tokenUser, refreshToken }) => {
-  // const accessTokenJWT = createToken({ tokenUser });
   const refreshTokenJWT = createToken({ tokenUser, refreshToken });
-  //const oneDay = 1000 * 60 * 60 * 24;
   const twoWeeks = 1000 * 60 * 60 * 24 * 14;
-  // console.log(accessTokenJWT,refreshTokenJWT)
-  // res.cookie("accessToken", accessTokenJWT, {
-  //   httpOnly: true,
-  //   expires: new Date(Date.now() + oneDay),
-  //   sameSite: "None",
-  //   // secure: process.env.NODE_ENV === "production",
-  //   signed: true,
-  //   secure: true,
-  // });
   const isProduction = process.env.NODE_ENV === "production";
   res.cookie("refreshToken", refreshTokenJWT, {
     httpOnly: true,
