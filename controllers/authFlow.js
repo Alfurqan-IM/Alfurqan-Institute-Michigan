@@ -8,7 +8,11 @@ const {
   BAD_REQUEST,
 } = require("../middleware/customErrors");
 const sendVerificationMail = require("../utils/sendVerificationMail");
-const { createUser, attachResponseToCookie } = require("../utils/jwt");
+const {
+  createUser,
+  attachResponseToCookie,
+  createToken,
+} = require("../utils/jwt");
 const sendPasswordResetMail = require("../utils/sendPasswordResetMail");
 const register = async (req, res) => {
   const {
@@ -105,7 +109,7 @@ const verifyMail = async (req, res) => {
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-  //   console.log(req.body);
+  console.log(req.body);
   if (!email || !password) {
     throw new BAD_REQUEST(
       "You have not provided either an email or a password"
@@ -143,48 +147,62 @@ const login = async (req, res) => {
   const isTokenStillVaild = await TOKEN.findOne({
     where: { user: user.user_id },
   });
+
   if (isTokenStillVaild) {
     const isValid = isTokenStillVaild.isValid;
     if (!isValid) {
       throw new UNAUTHORIZED("Token is not valid");
     }
     refreshToken = isTokenStillVaild.refreshToken;
-    attachResponseToCookie({ res, refreshToken, tokenUser });
-    res.status(StatusCodes.OK).json({ msg: "Login Sucessful !!!!" });
-    return;
+  } else {
+    refreshToken = crypto.randomBytes(40).toString("hex");
+    const userAgent = req.headers["user-agent"];
+    const ip = req.ip;
+    await TOKEN.create({ refreshToken, userAgent, ip, user: user.user_id });
   }
-  refreshToken = crypto.randomBytes(40).toString("hex");
-  const userAgent = req.headers["user-agent"];
-  const ip = req.ip;
-  await TOKEN.create({ refreshToken, userAgent, ip, user: user.user_id });
+
   attachResponseToCookie({ res, refreshToken, tokenUser });
-  res.status(StatusCodes.OK).json({ msg: "Login Sucessful !!!!" });
+
+  const accessTokenJWT = createToken({ tokenUser });
+
+  res.status(StatusCodes.OK).json({
+    msg: "Login successful",
+    accessToken: accessTokenJWT,
+    user: tokenUser,
+  });
 };
+
 const showMe = async (req, res) => {
-  // console.log(req.user);
   const {
+    user_id,
     first_name,
     last_name,
-    email,
+    user_name,
+    email ,
     role,
     phone,
     gender,
-    address,
+    image,
     city,
     state,
     country,
+    address,
+    notification,
   } = req.user;
   res.status(StatusCodes.OK).json({
     first_name,
     last_name,
+    user_name,
     email,
     role,
     phone,
     gender,
-    address,
+    image,
     city,
     state,
     country,
+    address,
+    notification,
   });
 };
 const logout = async (req, res) => {
@@ -306,7 +324,9 @@ const googleCallBack = (req, res, next) => {
           return next(err);
         }
         if (!user) {
-          return next(new UNAUTHORIZED("Authentication failed pls try again!!"));
+          return next(
+            new UNAUTHORIZED("Authentication failed pls try again!!")
+          );
         }
         const { email } = user;
 
