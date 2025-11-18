@@ -2,19 +2,34 @@ const { verifyToken, attachResponseToCookie } = require("../utils/jwt");
 const db = require("../models");
 const { token } = db;
 const { UNAUTHORIZED } = require("../middleware/customErrors");
-
 const authenticated = async (req, res, next) => {
-  const { accessToken, refreshToken: refreshedToken } = req.signedCookies;
   try {
+    // 1. Access token from header
+    const authHeader = req.headers.authorization;
+    let accessToken = null;
+
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      accessToken = authHeader.split(" ")[1];
+    }
+
+    // 2. Access token from cookies
+    if (!accessToken) {
+      accessToken = req.signedCookies.accessToken;
+    }
+
+    // Validate access token if present
     if (accessToken) {
       const { tokenUser } = verifyToken(accessToken);
-      // console.log(tokenUser);
       req.user = tokenUser;
       return next();
     }
 
+    // 3. No access token → try refresh token
+    const refreshedToken = req.signedCookies.refreshToken;
+    if (!refreshedToken) {
+      throw new UNAUTHORIZED("No token provided");
+    }
     const { tokenUser, refreshToken } = verifyToken(refreshedToken);
-    // console.log(tokenUser, refreshToken);
 
     const existingToken = await token.findOne({
       where: {
@@ -23,15 +38,17 @@ const authenticated = async (req, res, next) => {
       },
     });
 
-    const isValidToken = existingToken?.isValid;
-    if (!isValidToken || !existingToken) {
-      throw new UNAUTHORIZED("Token is not valid");
+    if (!existingToken || !existingToken.isValid) {
+      throw new UNAUTHORIZED("Token not valid");
     }
-    req.user = tokenUser;
+
+    // 4. Refresh valid → issue new access token
     attachResponseToCookie({ tokenUser, res, refreshToken });
-    next();
+    req.user = tokenUser;
+    //console.log(refreshToken, "refresh token",req.user);
+    return next();
   } catch (err) {
-    throw new UNAUTHORIZED("Authentication invalid, there is no token");
+    throw new UNAUTHORIZED("Authentication invalid");
   }
 };
 
@@ -52,4 +69,3 @@ const checkPermissions = ({ reqUser, resUser }) => {
 };
 
 module.exports = { authenticated, authorizedPermissions, checkPermissions };
-// checkPermissions({ reqUser: req.user, resUser: req.user.user_id });

@@ -139,7 +139,7 @@ app.get("/", (req, res) => {
 });
 
 // use Routes
-app.use("/api/v1/authentication", loginLimiter, authRoutes);
+app.use("/api/v1/authentication",loginLimiter, authRoutes);
 app.use("/api/v1/banners", bannerRoutes);
 app.use("/api/v1/enquiries", enquiriesRoutes);
 app.use("/api/v1/programmes", programmesRoutes);
