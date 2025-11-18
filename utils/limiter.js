@@ -1,7 +1,7 @@
 const rateLimiter = require("express-rate-limit");
 const loginLimiter = rateLimiter({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // 10 login attempts per IP
+  max: 30, // 10 login attempts per IP
   message: {
     status: 429,
     message: "Too many login attempts. Please try again later.",

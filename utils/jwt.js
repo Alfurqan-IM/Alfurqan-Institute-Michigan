@@ -1,21 +1,24 @@
 const jwt = require("jsonwebtoken");
 const createUser = (user) => {
-  return {
-    user_id: user.user_id,
-    fisrt_name: user.first_name,
-    last_name: user.lat_name,
-    user_name: user.username,
-    email: user.email,
-    role: user.role,
-    phone: user.phone,
-    gender: user.gender,
-    image: user.image,
-    city: user.city,
-    state: user.state,
-    country: user.country,
-    address: user.address,
-    notification: user.notification,
+  const userDetails = user.dataValues;
+  const payload = {
+    user_id: userDetails.user_id,
+    first_name: userDetails.first_name,
+    last_name: userDetails.last_name,
+    user_name: userDetails.user_name,
+    email: userDetails.email,
+    role: userDetails.role,
+    phone: userDetails.phone,
+    gender: userDetails.gender,
+    image: userDetails.image,
+    city: userDetails.city,
+    state: userDetails.state,
+    country: userDetails.country,
+    address: userDetails.address,
+    notification: userDetails.notification,
   };
+  console.log(payload,'payload here');
+  return payload;
 };
 
 const createToken = (payload) => {
@@ -28,26 +31,26 @@ const verifyToken = (token) => {
 };
 
 const attachResponseToCookie = ({ res, tokenUser, refreshToken }) => {
-  const accessTokenJWT = createToken({ tokenUser });
+  // const accessTokenJWT = createToken({ tokenUser });
   const refreshTokenJWT = createToken({ tokenUser, refreshToken });
-  const oneDay = 1000 * 60 * 60 * 24;
+  //const oneDay = 1000 * 60 * 60 * 24;
   const twoWeeks = 1000 * 60 * 60 * 24 * 14;
   // console.log(accessTokenJWT,refreshTokenJWT)
-  res.cookie("accessToken", accessTokenJWT, {
-    httpOnly: true,
-    expires: new Date(Date.now() + oneDay),
-    sameSite: "None",
-    // secure: process.env.NODE_ENV === "production",
-    signed: true,
-    secure: true,
-  });
+  // res.cookie("accessToken", accessTokenJWT, {
+  //   httpOnly: true,
+  //   expires: new Date(Date.now() + oneDay),
+  //   sameSite: "None",
+  //   // secure: process.env.NODE_ENV === "production",
+  //   signed: true,
+  //   secure: true,
+  // });
+  const isProduction = process.env.NODE_ENV === "production";
   res.cookie("refreshToken", refreshTokenJWT, {
     httpOnly: true,
     expires: new Date(Date.now() + twoWeeks),
-    sameSite: "None",
-    // secure: process.env.NODE_ENV === "production",
+    sameSite: isProduction ? "None" : "Lax",
+    secure: isProduction, // secure only in production
     signed: true,
-    secure: true,
   });
 };
 
